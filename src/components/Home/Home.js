@@ -1,6 +1,17 @@
 import React, { useEffect, useState }  from "react";
 import Post from "../Post/Post";
+import Container from '@material-ui/core/Container';
+import {makeStyles} from '@material-ui/core/styles'
 
+const useStyles=makeStyles((theme)=>({
+    container:{
+        display:"flex",
+        flexWrap:"wrap",
+        justifyContent:"center",
+        backgroundColor:'#cfe8fc',
+        height:'100vh'
+    }
+}));
 
 function Home() {
     const [error, setError] = useState(null);
@@ -29,12 +40,12 @@ function Home() {
         return <div>Loading...</div>
     }else{
         return(
-        <div className="container">
+            <Container fixed className="{classes.container}">
                 {postList.map(post=>(
-                    <Post title={post.title} text={post.text}></Post>
+                    <Post userName={post.userName} userId={post.userId} title={post.title} text={post.text}></Post>
                 
                 ))}
-       </div>
+    </Container> 
         )
     }
     }
