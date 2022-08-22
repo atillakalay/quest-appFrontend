@@ -15,67 +15,68 @@ import CommentIcon from '@material-ui/icons/Comment';
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-      Width: 800,
-      textAlign: "left"
-    },
-    media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
-    },
-    avatar: {
-      backgroundColor: red[500],
-    },
-    link:{
-      textDecoration:"none",
-      boxShadow:"none",
-      color:"white"
+  root: {
+    Width: 800,
+    textAlign: "left",
+    margin: 20
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  avatar: {
+    background: 'linear-gradient(45deg,#2196F3 30%, #21CBF3 90%)', color: 'white'
+  },
+  link: {
+    textDecoration: "none",
+    boxShadow: "none",
+    color: "white"
   }
-  }));
+}));
 
 
-function Post(props) { 
-   const{title,text,userId,userName}=props;
-   const classes = useStyles();
-   const [expanded, setExpanded] = React.useState(false);
-   const[liked,setLiked]=useState(false);
-   const handleExpandClick = () => {
+function Post(props) {
+  const { title, text, userId, userName } = props;
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  const [liked, setLiked] = useState(false);
+  const handleExpandClick = () => {
     setExpanded(!expanded);
   };
- const handleLike=()=>{
-setLiked(!liked);
- }
+  const handleLike = () => {
+    setLiked(!liked);
+  }
 
-   return(
+  return (
 
-         <Card className={classes.root}>
+    <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Link to={{pathname:'/users/'+userId}} className={classes.link}>
-          <Avatar aria-label="recipe" className={classes.avatar}>
-          {userName.charAt(0).toUpperCase()}
-          </Avatar>
+          <Link to={{ pathname: '/users/' + userId }} className={classes.link}>
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {userName.charAt(0).toUpperCase()}
+            </Avatar>
           </Link>
         }
         title={title}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-        {text}
+          {text}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton
-        onClick={handleLike}
-        aria-label="add to favorites">
-          <FavoriteIcon style={liked?{color:"red"}:null} />
+          onClick={handleLike}
+          aria-label="add to favorites">
+          <FavoriteIcon style={liked ? { color: "red" } : null} />
         </IconButton>
         <IconButton
           className={clsx(classes.expand, {
@@ -90,12 +91,12 @@ setLiked(!liked);
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-        
-       
+
+
         </CardContent>
       </Collapse>
     </Card>
-   )
+  )
 }
 
 export default Post;
