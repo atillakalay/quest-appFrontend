@@ -42,32 +42,32 @@ function PostForm(props) {
     const [text, setText] = useState("");
     const [title, setTitle] = useState("");
 
-    const savePost=()=>{
+    const savePost = () => {
         fetch("/posts",
-        {
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                title:title,
-                userId:userId,
-                text:text,
-            }),
-        })
-        .then((res)=>res.json())
-        .catch((err)=>console.log("error"))
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: title,
+                    userId: userId,
+                    text: text,
+                }),
+            })
+            .then((res) => res.json())
+            .catch((err) => console.log("error"))
     }
 
     const handleSubmit = () => {
-savePost();
+        savePost();
     }
 
-    const handleTitle=(value)=>{
-setTitle(value);
+    const handleTitle = (value) => {
+        setTitle(value);
     }
 
-    const handleText=(value)=>{
+    const handleText = (value) => {
         setText(value);
     }
 
