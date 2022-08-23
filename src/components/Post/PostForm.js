@@ -6,13 +6,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from "react-router-dom";
-import { Button, InputAdornment, OutlinedInput } from '@material-ui/core';
+import { Button, InputAdornment, OutlinedInput, Snackbar } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        Width: 800,
-        textAlign: "left",
-        margin: 20
+        width: 800,
+        textAlign : "left",
+        margin : 20
+
     },
     media: {
         height: 0,
@@ -35,12 +37,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 
 function PostForm(props) {
-    const { userId, userName } = props;
+    const { userId, userName,refreshPosts } = props;
     const classes = useStyles();
     const [text, setText] = useState("");
     const [title, setTitle] = useState("");
+    const [isSend,setIsSend]=useState(false);
 
     const savePost = () => {
         fetch("/posts",
@@ -61,17 +68,37 @@ function PostForm(props) {
 
     const handleSubmit = () => {
         savePost();
+        setIsSend(true);
+        setTitle("");
+        setText("");
+        refreshPosts();
     }
 
     const handleTitle = (value) => {
         setTitle(value);
+        setIsSend(false);
     }
 
     const handleText = (value) => {
         setText(value);
+        setIsSend(false);
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setIsSend(false);
+      };
+
     return (
+<div>
+<Snackbar open={isSend} autoHideDuration={1200} onClose={handleClose}>
+  <Alert onClose={handleClose} severity="success">
+    Your post is send!
+  </Alert>
+</Snackbar>
 
         <Card className={classes.root}>
             <CardHeader
@@ -88,6 +115,7 @@ function PostForm(props) {
                     placeholder='Title'
                     inputProps={{ maxLength: 25 }}
                     fullWidth
+                    value={title}
                     onChange={(i) => handleTitle(i.target.value)}
                 >
                 </OutlinedInput>}
@@ -99,6 +127,7 @@ function PostForm(props) {
                         multiline placeholder='Text'
                         inputProps={{ maxLength: 250 }}
                         fullWidth
+                        value={text}
                         onChange={(i) => handleText(i.target.value)}
                         endAdornment={
                             <InputAdornment position='end'>
@@ -117,6 +146,7 @@ function PostForm(props) {
                 </Typography>
             </CardContent>
         </Card>
+        </div>
     )
 }
 
